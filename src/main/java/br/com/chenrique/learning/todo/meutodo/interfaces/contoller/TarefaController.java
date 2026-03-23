@@ -18,6 +18,7 @@ import br.com.chenrique.learning.todo.meutodo.application.usecase.ConsultarTaref
 import br.com.chenrique.learning.todo.meutodo.application.usecase.GerenciarTarefaService;
 import br.com.chenrique.learning.todo.meutodo.interfaces.dto.TarefaRequest;
 import br.com.chenrique.learning.todo.meutodo.interfaces.dto.TarefaResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/tarefas")
@@ -69,7 +70,7 @@ public class TarefaController {
     }
 
     @PostMapping
-    public ResponseEntity<TarefaResponse> criarTarefa(@RequestBody TarefaRequest request) {
+    public ResponseEntity<TarefaResponse> criarTarefa(@Valid @RequestBody TarefaRequest request) {
         var tarefa = gerenciarTarefaService.criarTarefa(request.titulo(), request.descricao(), request.prazo(),
                 request.lembrete());
 
@@ -77,7 +78,7 @@ public class TarefaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TarefaResponse> atualizarTarefa(@PathVariable Long id, @RequestBody TarefaRequest request) {
+    public ResponseEntity<TarefaResponse> atualizarTarefa(@PathVariable Long id,@Valid @RequestBody TarefaRequest request) {
         var tarefa = gerenciarTarefaService.atualizarTarefa(id, request.titulo(), request.descricao(), request.prazo(),
                 request.lembrete());
 
