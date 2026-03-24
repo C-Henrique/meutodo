@@ -22,6 +22,7 @@ public class Tarefa {
         this.descricao = descricao;
         this.prazo = prazo;
         this.lembrete = lembrete;
+        this.criadaEm = LocalDateTime.now();
     }
 
     // Construtor completo usado pela infraestrutura ao reconstruir do banco

@@ -72,4 +72,14 @@ public class TarefaRepositoryAdapterIT {
 
     }
     
+    @Test
+    @DisplayName("deve salvar tarefa e validar se o prazo é futuro")
+    void deveSalvarTarefaEValidarPrazoFuturo() {
+        var prazoFuturo = LocalDateTime.now().plusDays(5);
+        var tarefa = new Tarefa("Tarefa com prazo futuro", null, prazoFuturo, null);
+
+        var tarefaSalva = repositoryPort.salvar(tarefa);
+
+        assertThat(tarefaSalva.getPrazo()).isAfter(LocalDateTime.now());
+    }
 }

@@ -33,9 +33,9 @@ class TarefaTest {
             var tarefa = new Tarefa("Minha tarefa", "Descrição", null, null);
 
             assertThat(tarefa.getTitulo()).isEqualTo("Minha tarefa");
+            assertThat(tarefa.getCriadaEm()).isNotNull();
             assertThat(tarefa.isConcluida()).isFalse();
             assertThat(tarefa.isDestacada()).isFalse();
-            assertThat(tarefa.getCriadaEm()).isNotNull();
         }
 
         @Test
@@ -78,7 +78,7 @@ class TarefaTest {
 
             assertThatThrownBy(tarefa::concluir)
                     .isInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("já foi concluída");
+                    .hasMessageContaining("A tarefa já está concluída.");
         }
     }
 

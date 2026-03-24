@@ -90,7 +90,7 @@ class GerenciarTarefaServiceTest {
                 service.criarTarefa("", null, null, null)
             )
             .isInstanceOf(IllegalArgumentException.class)
-            .hasMessageContaining("título");
+            .hasMessageContaining("O titulo da tarefa é obrigatório.");
 
             // Garante que o repositório NUNCA foi chamado (falhou antes)
             verifyNoInteractions(repositoryPort);
@@ -157,7 +157,7 @@ class GerenciarTarefaServiceTest {
             // ASSERT + ACT — a regra de negócio está no Domain
             assertThatThrownBy(() -> service.concluirTarefa(1L))
                     .isInstanceOf(IllegalStateException.class)
-                    .hasMessageContaining("já foi concluída");
+                    .hasMessageContaining("A tarefa já está concluída.");
         }
     }
 

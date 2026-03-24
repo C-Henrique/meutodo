@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.chenrique.learning.todo.meutodo.application.port.in.GerenciarTarefaUseCase;
+import br.com.chenrique.learning.todo.meutodo.application.usecase.exceptions.TarefaNaoEncontradaException;
 import br.com.chenrique.learning.todo.meutodo.domain.Tarefa;
 import br.com.chenrique.learning.todo.meutodo.domain.TarefaRepositoryPort;
 
@@ -43,7 +44,7 @@ public class GerenciarTarefaService implements GerenciarTarefaUseCase{
     @Override
     public Tarefa concluirTarefa(Long id) {
         Tarefa tarefa = repositoryPort.buscarPorId(id)
-            .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+            .orElseThrow(() -> new TarefaNaoEncontradaException(id));
 
         tarefa.concluir();
         return repositoryPort.salvar(tarefa);
@@ -52,7 +53,7 @@ public class GerenciarTarefaService implements GerenciarTarefaUseCase{
     @Override
     public Tarefa destacarTarefa(Long id) {
         Tarefa tarefa = repositoryPort.buscarPorId(id)
-            .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+            .orElseThrow(() -> new TarefaNaoEncontradaException(id));
 
         tarefa.destacar();
         return repositoryPort.salvar(tarefa);
@@ -61,7 +62,7 @@ public class GerenciarTarefaService implements GerenciarTarefaUseCase{
     @Override
     public Tarefa removerDestaqueTarefa(Long id) {
         Tarefa tarefa = repositoryPort.buscarPorId(id)
-            .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+            .orElseThrow(() -> new TarefaNaoEncontradaException(id));
 
         tarefa.removerDestaque();
         return repositoryPort.salvar(tarefa);
@@ -71,7 +72,7 @@ public class GerenciarTarefaService implements GerenciarTarefaUseCase{
     public Tarefa atualizarTarefa(Long id, String titulo, String descricao, LocalDateTime prazo,
             LocalDateTime lembrete) {
         Tarefa tarefa = repositoryPort.buscarPorId(id)
-            .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+            .orElseThrow(() -> new TarefaNaoEncontradaException(id));
 
         tarefa.setTitulo(titulo);
         tarefa.setDescricao(descricao);
@@ -88,7 +89,7 @@ public class GerenciarTarefaService implements GerenciarTarefaUseCase{
 
     private Tarefa buscarTarefaOuFalhar(Long id) {
         return repositoryPort.buscarPorId(id)
-            .orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+            .orElseThrow(() -> new TarefaNaoEncontradaException(id));
     }
     
 }
