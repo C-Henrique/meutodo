@@ -18,8 +18,12 @@ import br.com.chenrique.learning.todo.meutodo.application.usecase.ConsultarTaref
 import br.com.chenrique.learning.todo.meutodo.application.usecase.GerenciarTarefaService;
 import br.com.chenrique.learning.todo.meutodo.interfaces.dto.TarefaRequest;
 import br.com.chenrique.learning.todo.meutodo.interfaces.dto.TarefaResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Tarefas", description = "Gerenciamento de tarefas")
 @RestController
 @RequestMapping("/api/tarefas")
 public class TarefaController {
@@ -33,6 +37,7 @@ public class TarefaController {
         this.consultarTarefaService = consultarTarefaService;
     }
 
+    @Operation(summary = "Lista todas as tarefas", description = "Retorna todas as tarefas cadastradas, incluindo concluídas")
     @GetMapping
     public ResponseEntity<List<TarefaResponse>> listarTodas() {
         List<TarefaResponse> tarefas = consultarTarefaService.listarTodas()
@@ -69,6 +74,10 @@ public class TarefaController {
         return ResponseEntity.ok(tarefa);
     }
 
+    @Operation(summary = "Cria uma nova tarefa", responses = {
+            @ApiResponse(responseCode = "201", description = "Tarefa criada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos")
+    })
     @PostMapping
     public ResponseEntity<TarefaResponse> criarTarefa(@Valid @RequestBody TarefaRequest request) {
         var tarefa = gerenciarTarefaService.criarTarefa(request.titulo(), request.descricao(), request.prazo(),
@@ -78,7 +87,8 @@ public class TarefaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TarefaResponse> atualizarTarefa(@PathVariable Long id,@Valid @RequestBody TarefaRequest request) {
+    public ResponseEntity<TarefaResponse> atualizarTarefa(@PathVariable Long id,
+            @Valid @RequestBody TarefaRequest request) {
         var tarefa = gerenciarTarefaService.atualizarTarefa(id, request.titulo(), request.descricao(), request.prazo(),
                 request.lembrete());
 
@@ -86,19 +96,19 @@ public class TarefaController {
     }
 
     @PatchMapping("/{id}/concluir")
-    public ResponseEntity<TarefaResponse> concluir(@PathVariable Long id){
+    public ResponseEntity<TarefaResponse> concluir(@PathVariable Long id) {
         TarefaResponse tarefa = TarefaResponse.fromDomain(gerenciarTarefaService.concluirTarefa(id));
         return ResponseEntity.ok(tarefa);
     }
 
     @PatchMapping("/{id}/destacar")
-    public ResponseEntity<TarefaResponse> destacar(@PathVariable Long id){
+    public ResponseEntity<TarefaResponse> destacar(@PathVariable Long id) {
         TarefaResponse tarefa = TarefaResponse.fromDomain(gerenciarTarefaService.destacarTarefa(id));
         return ResponseEntity.ok(tarefa);
     }
 
     @PatchMapping("/{id}/remover-destaque")
-    public ResponseEntity<TarefaResponse> removerDestaque(@PathVariable Long id){
+    public ResponseEntity<TarefaResponse> removerDestaque(@PathVariable Long id) {
         TarefaResponse tarefa = TarefaResponse.fromDomain(gerenciarTarefaService.removerDestaqueTarefa(id));
         return ResponseEntity.ok(tarefa);
     }
