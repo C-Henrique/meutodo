@@ -20,12 +20,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  
+
   springdoc:
     swagger-ui:
       path: /swagger-ui.html
     api-docs:
       path: /v3/api-docs
-      
+
+  security:
+    jwt:
+    secret: "3f8b2c1d9e4a7f6b0c5d8e2a1b4f7c9d3e6a0b5c8d1e4f7a2b5c8d1e4f7a2b5"
+    expiration: 86400000
+    
 server:
   port: 8080
