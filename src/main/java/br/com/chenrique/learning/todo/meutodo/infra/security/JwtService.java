@@ -58,10 +58,9 @@ public class JwtService {
     /**
      * Verifica se o token é válido e pertence ao email informado.
      */
-    public boolean tokenValido(String token, String email) {
+    public boolean tokenValido(String token) {
         try {
-            String emailDoToken = extrairEmail(token);
-            return emailDoToken.equals(email) && !tokenExpirado(token);
+            return !tokenExpirado(token);
         } catch (Exception e) {
             return false;
         }
